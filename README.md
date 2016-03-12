@@ -1,4 +1,4 @@
-UrlCleaner [![Build Status](https://travis-ci.org/shekhargulati/urlcleaner.svg?branch=master)](https://travis-ci.org/shekhargulati/urlcleaner) [![codecov.io](https://codecov.io/github/shekhargulati/urlcleaner/coverage.svg?branch=master)](https://codecov.io/github/shekhargulati/urlcleaner?branch=master) [![License](https://img.shields.io/:license-mit-blue.svg)](./LICENSE)
+UrlCleaner [![Build Status](https://travis-ci.org/shekhargulati/urlcleaner.svg?branch=master)](https://travis-ci.org/shekhargulati/urlcleaner) [![codecov.io](https://codecov.io/github/shekhargulati/urlcleaner/coverage.svg?branch=master)](https://codecov.io/github/shekhargulati/urlcleaner?branch=master) [![License](https://img.shields.io/:license-mit-blue.svg)](./LICENSE.txt)
 -----
 
 This library provides functions to normalize a URL. In future releases, I will also add support to canonicalize an URL as well.
