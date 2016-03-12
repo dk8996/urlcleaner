@@ -32,8 +32,6 @@ public abstract class UrlCleaner {
      * @param inputUrl URL to process
      * @param options  option
      * @return normalized url
-     * @throws URISyntaxException
-     * @throws IllegalArgumentException
      */
     public static String normalizeUrl(final String inputUrl, final Options options) throws URISyntaxException, IllegalArgumentException {
         URI uri = Optional.ofNullable(inputUrl)
@@ -67,10 +65,8 @@ public abstract class UrlCleaner {
     /**
      * Normalizes a URL in a standardized and consistent manner.
      *
-     * @param inputUrl
+     * @param inputUrl URL to process
      * @return normalized url
-     * @throws URISyntaxException
-     * @throws IllegalArgumentException
      */
     public static String normalizeUrl(final String inputUrl) throws URISyntaxException, IllegalArgumentException {
         return normalizeUrl(inputUrl, Options.DEFAULT_OPTIONS);
