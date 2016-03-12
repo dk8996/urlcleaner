@@ -69,4 +69,11 @@ public class UrlCleanerSpec {
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("http://wwwshekhargulati.com"));
     }
+
+    @Test
+    public void shouldRemoveWWWAndPrependProtocolWhenNotPresent() throws Exception {
+        final String url = "www.shekhargulati.com";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com"));
+    }
 }

@@ -21,13 +21,13 @@ public interface UrlCleaner {
                 .map(u -> u.getScheme() == null ? URI.create("http://" + inputUrl) : u)
                 .orElseThrow(() -> new IllegalArgumentException("url can't be empty of null."));
 
-        String lowercaseScheme = uri.getScheme().toLowerCase();
+        String scheme = uri.getScheme().toLowerCase();
         String host = uri.getHost().toLowerCase();
         int port = -1; // URI does not add port iff it is -1
-        if (uri.getPort() != DEFAULT_PORTS.get(lowercaseScheme)) {
+        if (uri.getPort() != DEFAULT_PORTS.get(scheme)) {
             port = uri.getPort();
         }
         host = host.replaceFirst("^www\\.", "");
-        return new URI(lowercaseScheme, uri.getUserInfo(), host, port, uri.getPath(), uri.getQuery(), uri.getFragment()).normalize().toString();
+        return new URI(scheme, uri.getUserInfo(), host, port, uri.getPath(), uri.getQuery(), uri.getFragment()).normalize().toString();
     }
 }
