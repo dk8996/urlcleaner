@@ -209,4 +209,12 @@ public class UrlCleanerSpec {
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com/a/c/d.html"));
     }
+
+    @Test
+    public void shouldRemoveDotSegmentsFromAUrl_2() throws Exception {
+        final String url = "http://shekhargulati.com/foo/bar/./baz";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/foo/bar/baz"));
+    }
+
 }
