@@ -55,4 +55,18 @@ public class UrlCleanerSpec {
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("ftp://shekhargulati.com"));
     }
+
+    @Test
+    public void shouldRemoveWWWFromTheUrl() throws Exception {
+        final String url = "http://www.shekhargulati.com";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com"));
+    }
+
+    @Test
+    public void shouldNotRemoveWWWWhenItIsPartOfHostNameFromTheUrl() throws Exception {
+        final String url = "http://wwwshekhargulati.com";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://wwwshekhargulati.com"));
+    }
 }
