@@ -13,6 +13,11 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 
+/**
+ * UrlCleaner provides API to normalize and canonicalize URLs.
+ * <p>
+ * URL normalization is based on normalizations described in <a href="https://tools.ietf.org/html/rfc3986#section-6.">RFC 3986</a>.
+ */
 public abstract class UrlCleaner {
 
     private static final Map<String, Integer> DEFAULT_PORTS = Stream.of(
@@ -21,7 +26,16 @@ public abstract class UrlCleaner {
             new SimpleEntry<>("ftp", 21))
             .collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 
-    public static String normalizeUrl(final String inputUrl) throws URISyntaxException, IllegalArgumentException {
+    /**
+     * Normalizes a URL in a standardized and consistent manner.
+     *
+     * @param inputUrl URL to process
+     * @param options  option
+     * @return normalized url
+     * @throws URISyntaxException
+     * @throws IllegalArgumentException
+     */
+    public static String normalizeUrl(final String inputUrl, final Options options) throws URISyntaxException, IllegalArgumentException {
         URI uri = Optional.ofNullable(inputUrl)
                 .filter(u -> u.trim().length() > 0)
                 .map(u -> u.replaceFirst("^//", "http://"))
@@ -35,14 +49,31 @@ public abstract class UrlCleaner {
         if (uri.getPort() != DEFAULT_PORTS.get(scheme)) {
             port = uri.getPort();
         }
-        host = host.replaceFirst("^www\\.", "");
+        if (options.isStripWWW()) {
+            host = host.replaceFirst("^www\\.", "");
+        }
         String fragment = uri.getFragment();
+        if (options.isStripFragment()) {
+            fragment = null;
+        }
         String path = uri.getPath();
         if (path != null) {
             path = Paths.get(path).normalize().toString();
         }
-        String newUri = new URI(scheme, uri.getUserInfo(), host, port, path, sortQueryString(uri.getQuery()), null).normalize().toString();
+        String newUri = new URI(scheme, uri.getUserInfo(), host, port, path, sortQueryString(uri.getQuery()), fragment).normalize().toString();
         return newUri.replace(host, IDN.toUnicode(host)).replaceFirst("/$", "");
+    }
+
+    /**
+     * Normalizes a URL in a standardized and consistent manner.
+     *
+     * @param inputUrl
+     * @return normalized url
+     * @throws URISyntaxException
+     * @throws IllegalArgumentException
+     */
+    public static String normalizeUrl(final String inputUrl) throws URISyntaxException, IllegalArgumentException {
+        return normalizeUrl(inputUrl, Options.DEFAULT_OPTIONS);
     }
 
     private static String sortQueryString(final String query) {
@@ -56,10 +87,4 @@ public abstract class UrlCleaner {
                 .map(e -> String.format("%s=%s", e.getKey(), e.getValue())).collect(joining("&"));
     }
 
-    class Option {
-        Option DEFAULT_OPTIONS = new Option();
-
-        private Option() {
-        }
-    }
 }

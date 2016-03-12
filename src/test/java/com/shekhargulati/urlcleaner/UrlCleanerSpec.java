@@ -50,6 +50,13 @@ public class UrlCleanerSpec {
     }
 
     @Test
+    public void shouldRemoveDefaultPortForHttpsProtocolWithWWW() throws Exception {
+        final String url = "https://www.shekhargulati.com:443";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("https://shekhargulati.com"));
+    }
+
+    @Test
     public void shouldRemoveDefaultPortForFtpProtocol() throws Exception {
         final String url = "ftp://shekhargulati.com:21";
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
@@ -216,5 +223,6 @@ public class UrlCleanerSpec {
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com/foo/bar/baz"));
     }
+
 
 }
