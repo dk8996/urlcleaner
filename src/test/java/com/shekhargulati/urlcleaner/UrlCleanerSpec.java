@@ -125,4 +125,18 @@ public class UrlCleanerSpec {
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com/helloAabout"));
     }
+
+    @Test
+    public void shouldSortQueryParameters() throws Exception {
+        final String url = "http://shekhargulati.com?lang=en&article=fred";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com?article=fred&lang=en"));
+    }
+
+    @Test
+    public void shouldSortQueryParameters_2() throws Exception {
+        final String url = "http://shekhargulati.com/?b=bar&a=foo";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/?a=foo&b=bar"));
+    }
 }

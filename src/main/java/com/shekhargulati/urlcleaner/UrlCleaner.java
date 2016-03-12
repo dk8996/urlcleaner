@@ -3,10 +3,12 @@ package com.shekhargulati.urlcleaner;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 
 public interface UrlCleaner {
@@ -28,8 +30,19 @@ public interface UrlCleaner {
             port = uri.getPort();
         }
         host = host.replaceFirst("^www\\.", "");
-        String newUri = new URI(scheme, uri.getUserInfo(), host, port, uri.getPath(), uri.getQuery(), uri.getFragment()).normalize().toString();
+        String newUri = new URI(scheme, uri.getUserInfo(), host, port, uri.getPath(), sortQueryString(uri.getQuery()), uri.getFragment()).normalize().toString();
         return newUri.replaceFirst("/$", "");
+    }
+
+    static String sortQueryString(final String query) {
+        if (query == null) {
+            return null;
+        }
+        return Arrays.stream(query.split("&"))
+                .map(p -> p.split("="))
+                .map(p -> new SimpleEntry<>(p[0], p[1]))
+                .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
+                .map(e -> String.format("%s=%s", e.getKey(), e.getValue())).collect(joining("&"));
     }
 
     class Option {
