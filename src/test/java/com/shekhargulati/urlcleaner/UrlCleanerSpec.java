@@ -76,4 +76,11 @@ public class UrlCleanerSpec {
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com"));
     }
+
+    @Test
+    public void shouldRemoveTrailingSlashes() throws Exception {
+        final String url = "http://shekhargulati.com/about/";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/about"));
+    }
 }

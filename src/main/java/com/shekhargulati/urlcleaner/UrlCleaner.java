@@ -28,6 +28,7 @@ public interface UrlCleaner {
             port = uri.getPort();
         }
         host = host.replaceFirst("^www\\.", "");
-        return new URI(scheme, uri.getUserInfo(), host, port, uri.getPath(), uri.getQuery(), uri.getFragment()).normalize().toString();
+        String newUri = new URI(scheme, uri.getUserInfo(), host, port, uri.getPath(), uri.getQuery(), uri.getFragment()).normalize().toString();
+        return newUri.replaceFirst("/$", "");
     }
 }
