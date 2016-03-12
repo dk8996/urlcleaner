@@ -148,6 +148,13 @@ public class UrlCleanerSpec {
     }
 
     @Test
+    public void shouldRemoveQuestionMarkWhenThereIsNoQueryParameter_2() throws Exception {
+        final String url = "http://shekhargulati.com/?";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com"));
+    }
+
+    @Test
     public void shouldHandleQueryParametersWithoutValues() throws Exception {
         final String url = "http://shekhargulati.com/?b=&a=foo";
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
@@ -160,4 +167,5 @@ public class UrlCleanerSpec {
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com/?foo=bar-baz"));
     }
+
 }
