@@ -31,4 +31,11 @@ public interface UrlCleaner {
         String newUri = new URI(scheme, uri.getUserInfo(), host, port, uri.getPath(), uri.getQuery(), uri.getFragment()).normalize().toString();
         return newUri.replaceFirst("/$", "");
     }
+
+    class Option {
+        Option DEFAULT_OPTIONS = new Option();
+
+        private Option() {
+        }
+    }
 }

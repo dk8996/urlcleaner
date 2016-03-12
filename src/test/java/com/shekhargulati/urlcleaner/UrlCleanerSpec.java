@@ -78,9 +78,51 @@ public class UrlCleanerSpec {
     }
 
     @Test
-    public void shouldRemoveTrailingSlashes() throws Exception {
-        final String url = "http://shekhargulati.com/about/";
+    public void shouldAddTrailingSlashes() throws Exception {
+        final String url = "http://shekhargulati.com/about";
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com/about"));
+    }
+
+    @Test
+    public void shouldDecodePercentEncodedTilde() throws Exception {
+        final String url = "http://shekhargulati.com/%7Eabout/";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/~about"));
+    }
+
+    @Test
+    public void shouldDecodePercentEncodedUnderscore() throws Exception {
+        final String url = "http://shekhargulati.com/hello%5Fabout/";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/hello_about"));
+    }
+
+    @Test
+    public void shouldDecodePercentEncodedPeriod() throws Exception {
+        final String url = "http://shekhargulati.com/hello%2Eabout/";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/hello.about"));
+    }
+
+    @Test
+    public void shouldDecodePercentEncodedHyphen() throws Exception {
+        final String url = "http://shekhargulati.com/hello%2Dabout/";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/hello-about"));
+    }
+
+    @Test
+    public void shouldDecodePercentEncodedDigit() throws Exception {
+        final String url = "http://shekhargulati.com/hello%39about/";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/hello9about"));
+    }
+
+    @Test
+    public void shouldDecodePercentEncodedAlpha() throws Exception {
+        final String url = "http://shekhargulati.com/hello%41about/";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/helloAabout"));
     }
 }
