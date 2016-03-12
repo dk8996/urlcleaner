@@ -181,4 +181,18 @@ public class UrlCleanerSpec {
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("http://êxample.com"));
     }
+
+    @Test
+    public void shouldRemoveDuplicateSlashesInPath() throws Exception {
+        final String url = "http://shekhargulati.com/foo//bar.html";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/foo/bar.html"));
+    }
+
+    @Test
+    public void shouldRemoveMultipleSlashesInPath() throws Exception {
+        final String url = "http://shekhargulati.com/////foo//bar.html";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/foo/bar.html"));
+    }
 }
