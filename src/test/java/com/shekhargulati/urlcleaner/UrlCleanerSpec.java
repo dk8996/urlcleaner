@@ -145,6 +145,13 @@ public class UrlCleanerSpec {
         final String url = "http://shekhargulati.com?";
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com"));
-
     }
+
+    @Test
+    public void shouldHandleQueryParametersWithoutValues() throws Exception {
+        final String url = "http://shekhargulati.com/?b=&a=foo";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/?a=foo&b="));
+    }
+
 }

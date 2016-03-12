@@ -11,11 +11,15 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 
-public interface UrlCleaner {
+public abstract class UrlCleaner {
 
-    Map<String, Integer> DEFAULT_PORTS = Stream.of(new SimpleEntry<>("http", 80), new SimpleEntry<>("https", 443), new SimpleEntry<>("ftp", 21)).collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
+    private static final Map<String, Integer> DEFAULT_PORTS = Stream.of(
+            new SimpleEntry<>("http", 80),
+            new SimpleEntry<>("https", 443),
+            new SimpleEntry<>("ftp", 21))
+            .collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 
-    static String normalizeUrl(final String inputUrl) throws URISyntaxException {
+    public static String normalizeUrl(final String inputUrl) throws URISyntaxException, IllegalArgumentException {
         URI uri = Optional.ofNullable(inputUrl)
                 .filter(u -> u.trim().length() > 0)
                 .map(u -> u.replaceFirst("^//", "http://"))
@@ -34,13 +38,13 @@ public interface UrlCleaner {
         return newUri.replaceFirst("/$", "");
     }
 
-    static String sortQueryString(final String query) {
+    private static String sortQueryString(final String query) {
         if (query == null || query.trim().length() == 0) {
             return null;
         }
         return Arrays.stream(query.split("&"))
                 .map(p -> p.split("="))
-                .map(p -> new SimpleEntry<>(p[0], p[1]))
+                .map(p -> p.length == 2 ? new SimpleEntry<>(p[0], p[1]) : new SimpleEntry<>(p[0], ""))
                 .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
                 .map(e -> String.format("%s=%s", e.getKey(), e.getValue())).collect(joining("&"));
     }
