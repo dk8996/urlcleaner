@@ -36,9 +36,23 @@ public class UrlCleanerSpec {
     }
 
     @Test
-    public void shouldRemoveDefaultPort() throws Exception {
+    public void shouldRemoveDefaultPortForHttpProtocol() throws Exception {
         final String url = "http://shekhargulati.com:80";
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com"));
+    }
+
+    @Test
+    public void shouldRemoveDefaultPortForHttpsProtocol() throws Exception {
+        final String url = "https://shekhargulati.com:443";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("https://shekhargulati.com"));
+    }
+
+    @Test
+    public void shouldRemoveDefaultPortForFtpProtocol() throws Exception {
+        final String url = "ftp://shekhargulati.com:21";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("ftp://shekhargulati.com"));
     }
 }
