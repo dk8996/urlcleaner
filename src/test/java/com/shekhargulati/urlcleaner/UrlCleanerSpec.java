@@ -195,4 +195,11 @@ public class UrlCleanerSpec {
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com/foo/bar.html"));
     }
+
+    @Test
+    public void shouldRemovePathFragments() throws Exception {
+        final String url = "http://shekhargulati.com/whoami#about";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/whoami"));
+    }
 }

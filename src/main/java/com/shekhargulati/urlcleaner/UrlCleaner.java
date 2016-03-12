@@ -35,7 +35,8 @@ public abstract class UrlCleaner {
             port = uri.getPort();
         }
         host = host.replaceFirst("^www\\.", "");
-        String newUri = new URI(scheme, uri.getUserInfo(), host, port, uri.getPath(), sortQueryString(uri.getQuery()), uri.getFragment()).normalize().toString();
+        String fragment = uri.getFragment();
+        String newUri = new URI(scheme, uri.getUserInfo(), host, port, uri.getPath(), sortQueryString(uri.getQuery()), null).normalize().toString();
         return newUri.replace(host, IDN.toUnicode(host)).replaceFirst("/$", "");
     }
 
