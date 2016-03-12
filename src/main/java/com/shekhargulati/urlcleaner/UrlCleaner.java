@@ -35,7 +35,7 @@ public interface UrlCleaner {
     }
 
     static String sortQueryString(final String query) {
-        if (query == null) {
+        if (query == null || query.trim().length() == 0) {
             return null;
         }
         return Arrays.stream(query.split("&"))

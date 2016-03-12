@@ -139,4 +139,12 @@ public class UrlCleanerSpec {
         String normalizedUrl = UrlCleaner.normalizeUrl(url);
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com/?a=foo&b=bar"));
     }
+
+    @Test
+    public void shouldRemoveQuestionMarkWhenThereIsNoQueryParameter() throws Exception {
+        final String url = "http://shekhargulati.com?";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com"));
+
+    }
 }
