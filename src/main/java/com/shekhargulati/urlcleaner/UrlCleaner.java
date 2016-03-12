@@ -3,6 +3,7 @@ package com.shekhargulati.urlcleaner;
 import java.net.IDN;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Arrays;
 import java.util.Map;
@@ -36,7 +37,11 @@ public abstract class UrlCleaner {
         }
         host = host.replaceFirst("^www\\.", "");
         String fragment = uri.getFragment();
-        String newUri = new URI(scheme, uri.getUserInfo(), host, port, uri.getPath(), sortQueryString(uri.getQuery()), null).normalize().toString();
+        String path = uri.getPath();
+        if (path != null) {
+            path = Paths.get(path).normalize().toString();
+        }
+        String newUri = new URI(scheme, uri.getUserInfo(), host, port, path, sortQueryString(uri.getQuery()), null).normalize().toString();
         return newUri.replace(host, IDN.toUnicode(host)).replaceFirst("/$", "");
     }
 
