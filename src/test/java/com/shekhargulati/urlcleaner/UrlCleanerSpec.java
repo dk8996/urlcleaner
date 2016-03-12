@@ -154,4 +154,10 @@ public class UrlCleanerSpec {
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com/?a=foo&b="));
     }
 
+    @Test
+    public void shouldDecodePercentEncodedQueryParameterValue() throws Exception {
+        final String url = "http://shekhargulati.com/?foo=bar%2Dbaz";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com/?foo=bar-baz"));
+    }
 }
