@@ -1,5 +1,6 @@
 package com.shekhargulati.urlcleaner;
 
+import java.net.IDN;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.AbstractMap.SimpleEntry;
@@ -35,7 +36,7 @@ public abstract class UrlCleaner {
         }
         host = host.replaceFirst("^www\\.", "");
         String newUri = new URI(scheme, uri.getUserInfo(), host, port, uri.getPath(), sortQueryString(uri.getQuery()), uri.getFragment()).normalize().toString();
-        return newUri.replaceFirst("/$", "");
+        return newUri.replace(host, IDN.toUnicode(host)).replaceFirst("/$", "");
     }
 
     private static String sortQueryString(final String query) {

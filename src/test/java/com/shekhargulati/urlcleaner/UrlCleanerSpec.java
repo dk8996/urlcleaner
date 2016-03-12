@@ -168,4 +168,17 @@ public class UrlCleanerSpec {
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com/?foo=bar-baz"));
     }
 
+    @Test
+    public void shouldNotRemoveNonDefaultPorts() throws Exception {
+        final String url = "http://shekhargulati.com:8080";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://shekhargulati.com:8080"));
+    }
+
+    @Test
+    public void shouldConvertPunnycodeHostToUnicode() throws Exception {
+        final String url = "http://xn--xample-hva.com";
+        String normalizedUrl = UrlCleaner.normalizeUrl(url);
+        assertThat(normalizedUrl, equalTo("http://êxample.com"));
+    }
 }
