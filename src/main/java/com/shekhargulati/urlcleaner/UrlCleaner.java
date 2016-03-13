@@ -6,12 +6,12 @@ import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.*;
 
 /**
  * UrlCleaner provides API to normalize and canonicalize URLs.
@@ -33,7 +33,7 @@ public abstract class UrlCleaner {
      * @param options  option
      * @return normalized url
      */
-    public static String normalizeUrl(final String inputUrl, final Options options) throws URISyntaxException, IllegalArgumentException {
+    public static String normalizeUrl(final String inputUrl, final Options options) throws IllegalArgumentException {
         URI uri = Optional.ofNullable(inputUrl)
                 .filter(u -> u.trim().length() > 0)
                 .map(u -> u.replaceFirst("^//", "http://"))
@@ -58,8 +58,13 @@ public abstract class UrlCleaner {
         if (path != null) {
             path = Paths.get(path).normalize().toString();
         }
-        String newUri = new URI(scheme, uri.getUserInfo(), host, port, path, sortQueryString(uri.getQuery()), fragment).normalize().toString();
-        return newUri.replace(host, IDN.toUnicode(host)).replaceFirst("/$", "");
+        String newUri = null;
+        try {
+            newUri = new URI(scheme, uri.getUserInfo(), host, port, path, sortQueryString(uri.getQuery()), fragment).normalize().toString();
+            return newUri.replace(host, IDN.toUnicode(host)).replaceFirst("/$", "");
+        } catch (URISyntaxException e) {
+            throw new UrlCleanerException(e);
+        }
     }
 
     /**
@@ -68,8 +73,33 @@ public abstract class UrlCleaner {
      * @param inputUrl URL to process
      * @return normalized url
      */
-    public static String normalizeUrl(final String inputUrl) throws URISyntaxException, IllegalArgumentException {
+    public static String normalizeUrl(final String inputUrl) throws UrlCleanerException, IllegalArgumentException {
         return normalizeUrl(inputUrl, Options.DEFAULT_OPTIONS);
+    }
+
+    /**
+     * Normalizes a list of urls
+     *
+     * @param inputUrls
+     * @return normalized URLs
+     * @throws UrlCleanerException
+     * @throws IllegalArgumentException
+     */
+    public static List<String> normalizeUrl(final String... inputUrls) throws UrlCleanerException, IllegalArgumentException {
+        return normalizeUrl(Arrays.asList(inputUrls), Options.DEFAULT_OPTIONS);
+    }
+
+    /**
+     * Normalizes a list of urls using the give options
+     *
+     * @param urls    a list of urls
+     * @param options option
+     * @return list of normalized URLs
+     * @throws UrlCleanerException
+     * @throws IllegalArgumentException
+     */
+    public static List<String> normalizeUrl(List<String> urls, final Options options) throws UrlCleanerException, IllegalArgumentException {
+        return urls.stream().map(inputUrl -> normalizeUrl(inputUrl, options)).collect(toList());
     }
 
     private static String sortQueryString(final String query) {

@@ -2,7 +2,10 @@ package com.shekhargulati.urlcleaner;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
 
 public class UrlCleanerSpec {
@@ -224,5 +227,14 @@ public class UrlCleanerSpec {
         assertThat(normalizedUrl, equalTo("http://shekhargulati.com/foo/bar/baz"));
     }
 
+    @Test
+    public void shouldNormalizeAListOfUrl() throws Exception {
+        final String url1 = "http://shekhargulati.com/hello%2Dabout/";
+        final String url2 = "http://shekhargulati.com/?";
+        final String url3 = "http://shekhargulati.com/foo/bar/./baz";
 
+        List<String> normalizedUrls = UrlCleaner.normalizeUrl(url1, url2, url3);
+        assertThat(normalizedUrls, hasItems(equalTo("http://shekhargulati.com/hello-about"), equalTo("http://shekhargulati.com"), equalTo("http://shekhargulati.com/foo/bar/baz")));
+
+    }
 }
