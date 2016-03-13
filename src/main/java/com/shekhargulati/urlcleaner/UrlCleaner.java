@@ -90,6 +90,18 @@ public abstract class UrlCleaner {
     }
 
     /**
+     * Normalizes a list of urls
+     *
+     * @param inputUrls
+     * @return normalized URLs
+     * @throws UrlCleanerException
+     * @throws IllegalArgumentException
+     */
+    public static List<String> normalizeUrl(final List<String> inputUrls) throws UrlCleanerException, IllegalArgumentException {
+        return normalizeUrl(inputUrls, Options.DEFAULT_OPTIONS);
+    }
+
+    /**
      * Normalizes a list of urls using the give options
      *
      * @param urls    a list of urls
