@@ -19,7 +19,7 @@ For Apache Maven users, please add following to your pom.xml.
     <dependency>
         <groupId>com.shekhargulati.urlcleaner</groupId>
         <artifactId>urlcleaner</artifactId>
-        <version>0.1.0</version>
+        <version>0.3.0</version>
         <type>jar</type>
     </dependency>
 </dependencies>
@@ -28,7 +28,7 @@ For Apache Maven users, please add following to your pom.xml.
 Gradle users can add following to their build.gradle file.
 
 ```groovy
-compile(group: 'com.shekhargulati.urlcleaner', name: 'urlcleaner', version: '0.1.0', ext: 'jar')
+compile(group: 'com.shekhargulati.urlcleaner', name: 'urlcleaner', version: '0.3.0', ext: 'jar')
 ```
 
 ## Usage
