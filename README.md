@@ -1,7 +1,9 @@
-UrlCleaner [![Build Status](https://travis-ci.org/shekhargulati/urlcleaner.svg?branch=master)](https://travis-ci.org/shekhargulati/urlcleaner) [![codecov.io](https://codecov.io/github/shekhargulati/urlcleaner/coverage.svg?branch=master)](https://codecov.io/github/shekhargulati/urlcleaner?branch=master) [![License](https://img.shields.io/:license-mit-blue.svg)](./LICENSE.txt)
+urlcleaner [![Build Status](https://travis-ci.org/shekhargulati/urlcleaner.svg?branch=master)](https://travis-ci.org/shekhargulati/urlcleaner) [![codecov.io](https://codecov.io/github/shekhargulati/urlcleaner/coverage.svg?branch=master)](https://codecov.io/github/shekhargulati/urlcleaner?branch=master) [![License](https://img.shields.io/:license-mit-blue.svg)](./LICENSE.txt)
 -----
 
 This library provides functions to normalize a URL. In future releases, I will also add support to canonicalize an URL as well.
+
+`urlcleaner` API uses JDK 8.
 
 > [URL normalization](https://en.wikipedia.org/wiki/URL_normalization) is the process by which URLs are modified and standardized in a consistent manner. The goal of the normalization process is to transform a URL into a normalized URL so it is possible to determine if two syntactically different URLs may be equivalent.
 
