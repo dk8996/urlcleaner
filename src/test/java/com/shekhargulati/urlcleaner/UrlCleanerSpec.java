@@ -244,6 +244,12 @@ public class UrlCleanerSpec {
     }
 
     @Test
+    public void shouldReturnSameUrlWhenItIsNotShortened() throws Exception {
+        String unshortenUrl = UrlCleaner.unshortenUrl("http://shekhargulati.com/");
+        assertThat(unshortenUrl, equalTo("http://shekhargulati.com/"));
+    }
+
+    @Test
     public void shouldUnshortenMultiLevelShortenUrl() throws Exception {
         String unshortenUrl = UrlCleaner.unshortenUrl("http://bit.ly/1pquoV5");
         assertThat(unshortenUrl, equalTo("http://shekhargulati.com/"));

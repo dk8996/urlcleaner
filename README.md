@@ -1,7 +1,7 @@
 urlcleaner [![Build Status](https://travis-ci.org/shekhargulati/urlcleaner.svg?branch=master)](https://travis-ci.org/shekhargulati/urlcleaner) [![codecov.io](https://codecov.io/github/shekhargulati/urlcleaner/coverage.svg?branch=master)](https://codecov.io/github/shekhargulati/urlcleaner?branch=master) [![License](https://img.shields.io/:license-mit-blue.svg)](./LICENSE.txt)
 -----
 
-This library provides functions to normalize a URL. In future releases, I will also add support to canonicalize an URL as well.
+This library provides functions to normalize, unshorted, and extract URL.
 
 `urlcleaner` API uses JDK 8.
 
@@ -19,7 +19,7 @@ For Apache Maven users, please add following to your pom.xml.
     <dependency>
         <groupId>com.shekhargulati.urlcleaner</groupId>
         <artifactId>urlcleaner</artifactId>
-        <version>0.3.0</version>
+        <version>0.4.0</version>
         <type>jar</type>
     </dependency>
 </dependencies>
@@ -28,10 +28,10 @@ For Apache Maven users, please add following to your pom.xml.
 Gradle users can add following to their build.gradle file.
 
 ```groovy
-compile(group: 'com.shekhargulati.urlcleaner', name: 'urlcleaner', version: '0.3.0', ext: 'jar')
+compile(group: 'com.shekhargulati.urlcleaner', name: 'urlcleaner', version: '0.4.0', ext: 'jar')
 ```
 
-## Usage
+## URL Normalization Usage
 
 ```java
 import com.shekhargulati.urlcleaner.UrlCleaner;
@@ -49,6 +49,24 @@ UrlCleaner.normalizeUrl("http://shekhargulati.com/hello%5Fabout/") // http://she
 UrlCleaner.normalizeUrl("http://shekhargulati.com?lang=en&article=fred") // http://shekhargulati.com?article=fred&lang=en
 
 UrlCleaner.normalizeUrl("http://xn--xample-hva.com") // http://êxample.com
+```
+
+## Unshorten URL Usage
+
+```java
+UrlCleaner.unshortenUrl("http://bit.ly/1Wtrl9t"); // http://shekhargulati.com/
+
+// It can also work for multi level shortened URL. The below URL is shortened 4 times
+UrlCleaner.unshortenUrl("http://bit.ly/1pwuGdF"); //http://www.bloomberg.com/news/articles/2016-03-17/unmasking-startup-l-jackson-silicon-valley-s-favorite-twitter-persona
+```
+
+
+## URL Extraction
+
+```java
+final String text = "CloudABI now available for Arch Linux https://nuxi.nl/doc/archlinux/  (cmts https://google.com )";
+List<String> urls = UrlExtractor.extractUrls(text);  
+// urls -> [https://nuxi.nl/doc/archlinux/,https://google.com]
 ```
 
 License
