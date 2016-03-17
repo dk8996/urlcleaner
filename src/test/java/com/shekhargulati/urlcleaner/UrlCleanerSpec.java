@@ -235,6 +235,23 @@ public class UrlCleanerSpec {
 
         List<String> normalizedUrls = UrlCleaner.normalizeUrl(url1, url2, url3);
         assertThat(normalizedUrls, hasItems(equalTo("http://shekhargulati.com/hello-about"), equalTo("http://shekhargulati.com"), equalTo("http://shekhargulati.com/foo/bar/baz")));
+    }
 
+    @Test
+    public void shouldUnshortenABitLyUrl() throws Exception {
+        String unshortenUrl = UrlCleaner.unshortenUrl("http://bit.ly/1Wtrl9t");
+        assertThat(unshortenUrl, equalTo("http://shekhargulati.com/"));
+    }
+
+    @Test
+    public void shouldUnshortenMultiLevelShortenUrl() throws Exception {
+        String unshortenUrl = UrlCleaner.unshortenUrl("http://bit.ly/1pquoV5");
+        assertThat(unshortenUrl, equalTo("http://shekhargulati.com/"));
+    }
+
+    @Test
+    public void shouldUnshortenMultiLevelShortenUrl_2() throws Exception {
+        String unshortenUrl = UrlCleaner.unshortenUrl("http://bit.ly/1pwuGdF");
+        assertThat(unshortenUrl, equalTo("http://www.bloomberg.com/news/articles/2016-03-17/unmasking-startup-l-jackson-silicon-valley-s-favorite-twitter-persona"));
     }
 }

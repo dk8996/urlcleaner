@@ -1,20 +1,16 @@
 package com.shekhargulati.urlcleaner;
 
-import java.net.IDN;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.IOException;
+import java.net.*;
 import java.nio.file.Paths;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.*;
 
 /**
- * UrlCleaner provides API to normalize and canonicalize URLs.
+ * UrlCleaner provides API to normalize and unshorten URLs.
  * <p>
  * URL normalization is based on normalizations described in <a href="https://tools.ietf.org/html/rfc3986#section-6.">RFC 3986</a>.
  */
@@ -112,6 +108,29 @@ public abstract class UrlCleaner {
      */
     public static List<String> normalizeUrl(List<String> urls, final Options options) throws UrlCleanerException, IllegalArgumentException {
         return urls.stream().map(inputUrl -> normalizeUrl(inputUrl, options)).collect(toList());
+    }
+
+    /**
+     * Unshortens a given URL to its full form
+     *
+     * @param shortUrl short URL like bit.ly/abc
+     * @return full URL
+     */
+    public static String unshortenUrl(final String shortUrl) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL(shortUrl).openConnection();
+        connection.setInstanceFollowRedirects(false);
+        connection.setRequestMethod("HEAD");
+        int responseCode = connection.getResponseCode();
+        String url = connection.getHeaderField("Location");
+        if (responseCode / 100 == 3 && url != null) {
+            String expandedUrl = unshortenUrl(url);
+            if (Objects.equals(expandedUrl, url))
+                return url;
+            else {
+                return expandedUrl;
+            }
+        }
+        return shortUrl;
     }
 
     private static String sortQueryString(final String query) {
