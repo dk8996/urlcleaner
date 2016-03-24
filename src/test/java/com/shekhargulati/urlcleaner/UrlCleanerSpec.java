@@ -260,4 +260,11 @@ public class UrlCleanerSpec {
         String unshortenUrl = UrlCleaner.unshortenUrl("http://bit.ly/1pwuGdF");
         assertThat(unshortenUrl, equalTo("http://www.bloomberg.com/news/articles/2016-03-17/unmasking-startup-l-jackson-silicon-valley-s-favorite-twitter-persona"));
     }
+
+    @Test
+    public void shouldReproduceIssue1() throws Exception {
+        String rtnStr = UrlCleaner.normalizeUrl("stackoverflow.com/questions/tagged/java");
+        System.out.println(rtnStr);
+        assertThat(rtnStr, equalTo("http://stackoverflow.com/questions/tagged/java"));
+    }
 }
