@@ -123,7 +123,7 @@ public abstract class UrlCleaner {
         int responseCode = connection.getResponseCode();
         String url = connection.getHeaderField("Location");
         if (responseCode / 100 == 3 && url != null) {
-            String expandedUrl = unshortenUrl(url);
+            String expandedUrl = unshortenUrl(new URL(shortUrl,url).toString());
             if (Objects.equals(expandedUrl, url))
                 return url;
             else {
