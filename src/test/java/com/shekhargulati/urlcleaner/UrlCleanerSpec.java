@@ -267,4 +267,11 @@ public class UrlCleanerSpec {
         System.out.println(rtnStr);
         assertThat(rtnStr, equalTo("http://stackoverflow.com/questions/tagged/java"));
     }
+    
+    @Test
+    public void shouldUnshortenRelativeURL() throws Exception {
+        String rtnStr = UrlCleaner.unshortenUrl("https://www.technologyreview.com/s/609054/warning-this-algorithm-will-self-destruct-after-its-used");
+        System.out.println(rtnStr);
+        assertThat(rtnStr, equalTo("https://www.technologyreview.com/s/609054/warning-this-algorithm-will-self-destruct-after-its-used/"));
+    }
 }
