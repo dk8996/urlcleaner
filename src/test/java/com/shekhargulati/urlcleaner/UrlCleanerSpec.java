@@ -240,25 +240,25 @@ public class UrlCleanerSpec {
     @Test
     public void shouldUnshortenABitLyUrl() throws Exception {
         String unshortenUrl = UrlCleaner.unshortenUrl("http://bit.ly/1Wtrl9t");
-        assertThat(unshortenUrl, equalTo("http://shekhargulati.com/"));
+        assertThat(unshortenUrl, equalTo("https://shekhargulati.com/"));
     }
 
     @Test
     public void shouldReturnSameUrlWhenItIsNotShortened() throws Exception {
-        String unshortenUrl = UrlCleaner.unshortenUrl("http://shekhargulati.com/");
-        assertThat(unshortenUrl, equalTo("http://shekhargulati.com/"));
+        String unshortenUrl = UrlCleaner.unshortenUrl("https://shekhargulati.com/");
+        assertThat(unshortenUrl, equalTo("https://shekhargulati.com/"));
     }
 
     @Test
     public void shouldUnshortenMultiLevelShortenUrl() throws Exception {
         String unshortenUrl = UrlCleaner.unshortenUrl("http://bit.ly/1pquoV5");
-        assertThat(unshortenUrl, equalTo("http://shekhargulati.com/"));
+        assertThat(unshortenUrl, equalTo("https://shekhargulati.com/"));
     }
 
     @Test
     public void shouldUnshortenMultiLevelShortenUrl_2() throws Exception {
         String unshortenUrl = UrlCleaner.unshortenUrl("http://bit.ly/1pwuGdF");
-        assertThat(unshortenUrl, equalTo("http://www.bloomberg.com/news/articles/2016-03-17/unmasking-startup-l-jackson-silicon-valley-s-favorite-twitter-persona"));
+        assertThat(unshortenUrl, equalTo("https://www.bloomberg.com/news/articles/2016-03-17/unmasking-startup-l-jackson-silicon-valley-s-favorite-twitter-persona"));
     }
 
     @Test
